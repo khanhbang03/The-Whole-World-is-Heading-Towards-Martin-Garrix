@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Whole World is Heading Towards Martin Garrix</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 30px 0 10px;
+      color: #00ffea;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    h2 {
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+
+    #map {
+      height: 500px;
+      width: 90%;
+      margin: 20px auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+
+    .flag-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .flag {
+      margin: 10px;
+      text-align: center;
+    }
+
+    .flag img {
+      width: 40px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+
+    #counter {
+      font-size: 1.6rem;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #00ffea;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>The Whole World is Heading Towards Martin Garrix 🌍🎶</h1>
+  <h2>Countries joining the movement</h2>
+
+  <div id="map"></div>
+
+  <div id="counter">Total Participants: <span id="participantCount">0</span></div>
+
+  <div class="flag-container" id="flags"></div>
+
+  <footer>© 2025 Martin Garrix Global Movement | Built with ❤️</footer>
+
+  <script>
+    // Initialize map
+    const map = L.map('map').setView([20, 0], 2);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Countries joining the movement
+    const countries = [
+      { name: "Netherlands", lat: 52.37, lon: 4.89, flag: "https://flagcdn.com/w40/nl.png" },
+      { name: "United States", lat: 38.90, lon: -77.03, flag: "https://flagcdn.com/w40/us.png" },
+      { name: "France", lat: 48.85, lon: 2.35, flag: "https://flagcdn.com/w40/fr.png" },
+      { name: "Australia", lat: -33.87, lon: 151.21, flag: "https://flagcdn.com/w40/au.png" },
+      { name: "Japan", lat: 35.68, lon: 139.69, flag: "https://flagcdn.com/w40/jp.png" },
+      { name: "Brazil", lat: -15.79, lon: -47.88, flag: "https://flagcdn.com/w40/br.png" },
+      { name: "India", lat: 28.61, lon: 77.20, flag: "https://flagcdn.com/w40/in.png" },
+      { name: "United Kingdom", lat: 51.50, lon: -0.12, flag: "https://flagcdn.com/w40/gb.png" },
+      { name: "Canada", lat: 45.42, lon: -75.69, flag: "https://flagcdn.com/w40/ca.png" },
+      { name: "Germany", lat: 52.52, lon: 13.40, flag: "https://flagcdn.com/w40/de.png" }
+    ];
+
+    // Add flags and markers
+    const flagContainer = document.getElementById("flags");
+    countries.forEach(c => {
+      const marker = L.marker([c.lat, c.lon]).addTo(map);
+      marker.bindPopup(`<b>${c.name}</b><br>Joined the Martin Garrix movement!`);
+
+      const div = document.createElement("div");
+      div.classList.add("flag");
+      div.innerHTML = `<img src="${c.flag}" alt="${c.name} flag"><br>${c.name}`;
+      flagContainer.appendChild(div);
+    });
+
+    // Animate participant counter
+    let count = 0;
+    const target = countries.length * 1000;
+    const counter = document.getElementById("participantCount");
+
+    const updateCounter = () => {
+      if (count < target) {
+        count += Math.floor(Math.random() * 100) + 50;
+        counter.textContent = count.toLocaleString();
+        requestAnimationFrame(updateCounter);
+      } else {
+        counter.textContent = target.toLocaleString();
+      }
+    };
+    updateCounter();
+  </script>
+</body>
+</html>
